@@ -83,7 +83,7 @@ public:
   inline short det() { return abs(_data->status(0) / 1000); }
 
   inline float phi_e() { return _elec->Phi(); }
-  inline bool elastic() { return (_hasE && _hasProt && _numProt == 1); }
+  inline bool elastic() { return (_hasE && _hasProt && _numProt > 0); }
   inline bool MM_cut() { return abs(MM2_NPip()) < MM2_cut; }
   inline bool NPip() { return (_hasE && _hasPip && _numPip == 1); }
 };
