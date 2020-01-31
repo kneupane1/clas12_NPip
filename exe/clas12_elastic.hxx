@@ -79,6 +79,7 @@ size_t run(std::shared_ptr<TChain> _chain,
     // For each particle in the event
     for (int part = 1; part < data->gpart(); part++) {
       if (cuts->IsProton(part)) {
+        event->SetProt(part);
         _hists->Fill_Dt(dt, part);
       } else if (cuts->IsPip(part)) {
         event->SetPip(part);

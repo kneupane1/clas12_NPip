@@ -22,8 +22,8 @@ protected:
   std::unique_ptr<TLorentzVector> _elec;
   std::unique_ptr<TLorentzVector> _gamma;
   std::unique_ptr<TLorentzVector> _target;
-  std::unique_ptr<TLorentzVector> _prot = nullptr;
   std::unique_ptr<TLorentzVector> _pip;
+  std::unique_ptr<TLorentzVector> _prot;
 
   std::vector<std::unique_ptr<TLorentzVector>> _other;
   std::vector<std::shared_ptr<TLorentzVector>> _photons;
@@ -31,17 +31,20 @@ protected:
   bool _hasE = false;
   bool _hasOther = false;
   bool _hasPip = false;
+  bool _hasProt = false;
 
   short _numNeg = 0;
   short _numNeutral = 0;
   short _numOther = 0;
   short _numPip = 0;
+  short _numProt = 0;
 
   short _sector = -1;
 
+  float _pi0_mass = NAN;
+
   float _MM_NPip = NAN;
   float _MM2_NPip = NAN;
-  float _pi0_mass = NAN;
 
   float _W = NAN;
   float _Q2 = NAN;
@@ -58,6 +61,8 @@ public:
   ~Reaction();
 
   void SetPip(int i);
+
+  void SetProt(int i);
 
   void SetOther(int i);
 
@@ -78,7 +83,7 @@ public:
   inline short det() { return abs(_data->status(0) / 1000); }
 
   inline float phi_e() { return _elec->Phi(); }
-
+  inline bool elastic() { return (_hasE && _hasProt && _numProt == 1); }
   inline bool MM_cut() { return abs(MM2_NPip()) < MM2_cut; }
   inline bool NPip() { return (_hasE && _hasPip && _numPip == 1); }
 };

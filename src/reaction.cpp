@@ -17,6 +17,7 @@ Reaction::Reaction(const std::shared_ptr<Branches12> &data, float beam_energy) {
   _target = std::make_unique<TLorentzVector>(0.0, 0.0, 0.0, MASS_P);
   _elec = std::make_unique<TLorentzVector>();
   _pip = std::make_unique<TLorentzVector>();
+  _prot = std::make_unique<TLorentzVector>();
 
   this->SetElec();
 }
@@ -40,6 +41,11 @@ void Reaction::SetPip(int i) {
   _numPip++;
   _hasPip = true;
   _pip->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_PIP);
+}
+void Reaction::SetProt(int i) {
+  _numProt++;
+  _hasProt = true;
+  _prot->SetXYZM(_data->px(i), _data->py(i), _data->pz(i), MASS_P);
 }
 
 void Reaction::SetOther(int i) {

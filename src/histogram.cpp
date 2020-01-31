@@ -182,6 +182,13 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
     E_vs_theta_e_all_events[all_sectors]->Fill(_e->theta_elec(), _e->E_elec());
     E_vs_theta_e_all_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
 
+    if (_e->elastic()) {
+
+      E_vs_theta_e_elastic_events[all_sectors]->Fill(_e->theta_elec(),
+                                                     _e->E_elec());
+      E_vs_theta_e_elastic_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
+    }
+
     if (_e->NPip()) {
       W_hist_NPip_before_mmsq_cut_events[all_sectors]->Fill(_e->W());
       W_hist_NPip_before_mmsq_cut_events[sec]->Fill(_e->W());
@@ -243,8 +250,8 @@ void Histogram::Write_WvsQ2() {
   // NPip I added
   TDirectory *NPip_folder = RootOutputFile->mkdir("NPip");
   NPip_folder->cd();
-  // auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W NPip sectors",
-  // 1920, 1080); W_NPip_can->Divide(4, 2);
+  // auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W NPip
+  // sectors", 1920, 1080); W_NPip_can->Divide(4, 2);
   for (short i = 0; i < NUM_SECTORS; i++) {
     W_hist_NPip_events[i]->SetXTitle("W (GeV)");
     W_hist_NPip_events[i]->Write();
@@ -278,8 +285,8 @@ void Histogram::Write_WvsQ2() {
     //}
 
     // auto MM2_NPip_can = std::make_unique<TCanvas>("MM2 NPip_can", "MM2 NPip
-    // sectors", 1920, 1080); MM2_NPip_can->Divide(4, 2); for (short i = 0; i <
-    // NUM_SECTORS; i++) {
+    // sectors", 1920, 1080); MM2_NPip_can->Divide(4, 2); for (short i = 0; i
+    // < NUM_SECTORS; i++) {
     MM2_hist_NPip_events[i]->SetXTitle("MM2 (GeV)");
     MM2_hist_NPip_events[i]->Write();
     //  MM2_NPip_can->cd(i + 1);
