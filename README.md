@@ -9,7 +9,7 @@ Analysis program for NPip events in the clas12 detector.
 ##### To Build
 
 ```shell
-git clone https://github.com/tylern4/clas12_elastic.git
+git clone https://github.com/kneupane1/clas12_NPip.git
 mkdir -p clas12_NPip/build
 cd clas12_NPip/build
 cmake ..
