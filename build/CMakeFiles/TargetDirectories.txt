@@ -1,0 +1,4 @@
+/home/krishna/Downloads/clas12_NPip/build/CMakeFiles/rebuild_cache.dir
+/home/krishna/Downloads/clas12_NPip/build/CMakeFiles/edit_cache.dir
+/home/krishna/Downloads/clas12_NPip/build/CMakeFiles/clas12lib.dir
+/home/krishna/Downloads/clas12_NPip/build/CMakeFiles/clas12_elastic.dir
