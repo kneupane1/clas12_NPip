@@ -84,7 +84,7 @@ public:
 
   inline float phi_e() { return _elec->Phi(); }
   inline bool elastic() {
-    return (_hasE && _hasProt && !_hasPip && _numProt == 1);
+    return (_hasE && _hasProt && !_hasPip && !_hasOther && _numProt == 1);
   }
   inline bool MM_cut() { return abs(MM2_NPip()) < MM2_cut; }
   inline bool NPip() { return (_hasE && _hasPip && _numPip == 1); }

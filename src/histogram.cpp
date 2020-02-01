@@ -182,8 +182,7 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
     E_vs_theta_e_all_events[all_sectors]->Fill(_e->theta_elec(), _e->E_elec());
     E_vs_theta_e_all_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
 
-    if (_e->elastic()) {
-
+    if (_e->elastic() && (0.8 < _e->W() && _e->W() < 1.1)) {
       E_vs_theta_e_elastic_events[all_sectors]->Fill(_e->theta_elec(),
                                                      _e->E_elec());
       E_vs_theta_e_elastic_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
