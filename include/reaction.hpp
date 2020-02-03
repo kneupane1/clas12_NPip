@@ -71,6 +71,7 @@ public:
   void SetOther(int i);
 
   void CalcMissMass();
+  void CalcMissMass_NPip();
   void CalcMassPi0();
   float pi0_mass();
 

@@ -98,17 +98,21 @@ void Reaction::CalcMissMass() {
       *mm -= *_p;
     _MM = mm->M();
     _MM2 = mm->M2();
-    //  }
-    if (NPip()) {
-      auto mm_MPip = std::make_unique<TLorentzVector>();
-      *mm_MPip += (*_gamma + *_target);
-      // for (auto& _p : _photons) *mm -= *_p;
-      *mm_MPip -= *_pip;
-      _MM_NPip = mm_MPip->M();
-      _MM2_NPip = mm_MPip->M2();
-    }
   }
 }
+
+void Reaction::CalcMissMass_NPip() {
+
+  if (NPip()) {
+    auto mm_MPip = std::make_unique<TLorentzVector>();
+    *mm_MPip += (*_gamma + *_target);
+    // for (auto& _p : _photons) *mm -= *_p;
+    *mm_MPip -= *_pip;
+    _MM_NPip = mm_MPip->M();
+    _MM2_NPip = mm_MPip->M2();
+  }
+}
+
 float Reaction::MM() {
   if (_MM != _MM)
     CalcMissMass();
@@ -122,12 +126,12 @@ float Reaction::MM2() {
 }
 float Reaction::MM_NPip() {
   if (_MM_NPip != _MM_NPip)
-    CalcMissMass();
+    CalcMissMass_NPip();
   return _MM_NPip;
 }
 float Reaction::MM2_NPip() {
   if (_MM2_NPip != _MM2_NPip)
-    CalcMissMass();
+    CalcMissMass_NPip();
 
   return _MM2_NPip;
 }
