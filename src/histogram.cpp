@@ -179,8 +179,7 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
   short sec = _e->sec();
 
   if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
-    MissingMass[all_sectors]->Fill(_e->MM2());
-    MissingMass[sec]->Fill(_e->MM2());
+
     W_hist_all_events[all_sectors]->Fill(_e->W());
     W_vs_q2_all_events[all_sectors]->Fill(_e->W(), _e->Q2());
     W_hist_all_events[sec]->Fill(_e->W());
@@ -192,6 +191,8 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
       E_vs_theta_e_elastic_events[all_sectors]->Fill(_e->theta_elec(),
                                                      _e->E_elec());
       E_vs_theta_e_elastic_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
+      MissingMass[all_sectors]->Fill(_e->MM2());
+      MissingMass[sec]->Fill(_e->MM2());
     }
 
     if (_e->NPip()) {

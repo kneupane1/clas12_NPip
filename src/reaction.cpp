@@ -121,7 +121,6 @@ float Reaction::MM() {
 float Reaction::MM2() {
   if (_MM2 != _MM2)
     CalcMissMass();
-
   return _MM2;
 }
 float Reaction::MM_NPip() {
