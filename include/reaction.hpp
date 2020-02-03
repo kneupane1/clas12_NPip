@@ -143,7 +143,9 @@ public:
             phi_diff_180() /* && MM_cut()*/);
   }
 
-  inline bool MM_NPip_cut() { return abs(MM2_NPip()) < MM2_cut; }
+  inline bool MM_NPip_cut() {
+    return (MM2_NPip_cut_l < MM2_NPip() && MM2_NPip() < MM2_NPip_cut_u);
+  }
   inline bool NPip() { return (_hasE && _hasPip && _numPip == 1); }
 };
 

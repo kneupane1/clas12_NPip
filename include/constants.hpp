@@ -62,6 +62,8 @@ static std::map<int, std::string> before_after_cut = {{0, "_before_cut"},
 static const float phi_min_cut = 3.08;
 static const float phi_max_cut = 3.2;
 static const float MM2_cut = 0.2;
+static const float MM2_NPip_cut_l = 0.8;
+static const float MM2_NPip_cut_u = 1.0;
 
 // Constants for fiducial cuts
 static const float ROTATE = 60.0 * DEG2RAD;
