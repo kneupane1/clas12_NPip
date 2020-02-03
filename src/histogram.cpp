@@ -175,8 +175,9 @@ void Histogram::Fill_Sparce(const std::shared_ptr<Reaction> &_e) {
 }
 
 void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
-  short sec = _e->sec();
   short pos_det = _e->pos_det();
+  short sec = _e->sec();
+
   if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
     W_hist_all_events[all_sectors]->Fill(_e->W());
     W_vs_q2_all_events[all_sectors]->Fill(_e->W(), _e->Q2());
