@@ -208,6 +208,8 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
         MM_hist_NPip->Fill(_e->MM_NPip());
         MM2_hist_NPip->Fill(_e->MM2_NPip());
 
+        Q2_hist_NPip->Fill(_e->Q2());
+
         if (_e->W() > 1.44 && _e->W() < 1.58) {
           E_vs_theta_e_2nd_reso_events[all_sectors]->Fill(_e->theta_elec(),
                                                           _e->E_elec());
@@ -233,6 +235,8 @@ void Histogram::Write_WvsQ2() {
   MM_hist_NPip->Write();
   MM2_hist_NPip->SetXTitle("MM2 (GeV)");
   MM2_hist_NPip->Write();
+  Q2_hist_NPip->SetTitle("Q2_NPip");
+  Q2_hist_NPip->Write();
 
   TDirectory *W_vs_Q2_folder = RootOutputFile->mkdir("W_vs_Q2");
   W_vs_Q2_folder->cd();
