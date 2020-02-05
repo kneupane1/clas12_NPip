@@ -305,10 +305,10 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
             E_vs_theta_e_2nd_reso_events[sec][2]->Fill(_e->theta_elec(),
                                                        _e->E_elec());
           } else if (_e->W() > 1.64 && _e->W() < 1.73) {
-            E_vs_theta_e_3rd_reso_events[all_sectors][2](_e->theta_elec(),
-                                                         _e->E_elec());
-            E_vs_theta_e_3rd_reso_events[sec][2](_e->theta_elec(),
-                                                 _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[all_sectors][2]->Fill(_e->theta_elec(),
+                                                               _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[sec][2]->Fill(_e->theta_elec(),
+                                                       _e->E_elec());
           }
         }
       }
