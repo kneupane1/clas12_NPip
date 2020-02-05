@@ -82,8 +82,8 @@ void Histogram::makeHists() {
           zero, w_max, bins, zero, q2_max);
 
       MissingMass[sec][q2] = std::make_shared<TH1D>(
-          Form("MM2_hist_sec_%d", sec), Form("MM2_hist_sec_%d", sec), bins,
-          -w_max, w_max);
+          Form("MM2_hist_sec_%d_%d", sec, q2),
+          Form("MM2_hist_sec_%d_%d", sec, q2), bins, -w_max, w_max);
     }
   }
 }
