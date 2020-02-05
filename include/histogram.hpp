@@ -31,7 +31,7 @@ using TGraph_ptr = std::shared_ptr<TGraph>;
 class Histogram {
 protected:
   static const short NUM_SECTORS = 7;
-  static const short NUM_Q2_BINS = 5;
+  static const short NUM_Q2_BINS = 4;
   std::string Q2_BIN_NAME[NUM_Q2_BINS] = {" all", " < 2 GeV", " 2-3.5 GeV",
                                           " > 3.5 GeV"};
   static const short NUM_DET = 3;
