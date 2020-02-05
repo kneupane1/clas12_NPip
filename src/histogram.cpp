@@ -218,9 +218,10 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
           E_vs_theta_e_2nd_reso_events[sec][0]->Fill(_e->theta_elec(),
                                                      _e->E_elec());
         } else if (_e->W() > 1.64 && _e->W() < 1.73) {
-          E_vs_theta_e_3rd_reso_events[all_sectors][0](_e->theta_elec(),
-                                                       _e->E_elec());
-          E_vs_theta_e_3rd_reso_events[sec][0](_e->theta_elec(), _e->E_elec());
+          E_vs_theta_e_3rd_reso_events[all_sectors][0]->Fill(_e->theta_elec(),
+                                                             _e->E_elec());
+          E_vs_theta_e_3rd_reso_events[sec][0]->Fill(_e->theta_elec(),
+                                                     _e->E_elec());
         }
       }
     }
@@ -261,10 +262,10 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
             E_vs_theta_e_2nd_reso_events[sec][1]->Fill(_e->theta_elec(),
                                                        _e->E_elec());
           } else if (_e->W() > 1.64 && _e->W() < 1.73) {
-            E_vs_theta_e_3rd_reso_events[all_sectors][1](_e->theta_elec(),
-                                                         _e->E_elec());
-            E_vs_theta_e_3rd_reso_events[sec][1](_e->theta_elec(),
-                                                 _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[all_sectors][1]->Fill(_e->theta_elec(),
+                                                               _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[sec][1]->Fill(_e->theta_elec(),
+                                                       _e->E_elec());
           }
         }
       }
@@ -346,10 +347,10 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
             E_vs_theta_e_2nd_reso_events[sec][3]->Fill(_e->theta_elec(),
                                                        _e->E_elec());
           } else if (_e->W() > 1.64 && _e->W() < 1.73) {
-            E_vs_theta_e_3rd_reso_events[all_sectors][3](_e->theta_elec(),
-                                                         _e->E_elec());
-            E_vs_theta_e_3rd_reso_events[sec][3](_e->theta_elec(),
-                                                 _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[all_sectors][3]->Fill(_e->theta_elec(),
+                                                               _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[sec][3]->Fill(_e->theta_elec(),
+                                                       _e->E_elec());
           }
         }
       }
