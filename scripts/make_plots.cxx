@@ -261,8 +261,8 @@ int make_plots(std::string inFileName = "/home/krishna/Downloads/clas12_NPip/"
       //  E_vs_theta_e_elastic_events->SetStats(0);
       E_vs_theta_e_elastic_events->SetTitle("E'_vs_theta_e'_sec");
       E_vs_theta_e_elastic_events->Draw("Col");
-      E_vs_theta_e_2nd_rsonance_region->Draw("same col");
-      E_vs_theta_e_3rd_rsonance_region->Draw("same col");
+      E_vs_theta_e_2nd_rsonance_region->Draw("same ");
+      E_vs_theta_e_3rd_rsonance_region->Draw("same ");
     }
     c1->SaveAs(Form("%s.png", c1->GetName()));
   }

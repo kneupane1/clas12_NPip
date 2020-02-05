@@ -46,44 +46,60 @@ void Histogram::makeHists() {
 
     for (short q2 = 0; q2 < NUM_Q2_BINS; q2++) {
       E_vs_theta_e_all_events[sec][q2] =
-          std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d_%d", sec, q2),
-                                 Form("E_vs_theta_e_all_events_%d_%d", sec, q2),
+          std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d_%d6.12s", sec,
+                                      Q2_BIN_NAME[q2].c_str()),
+                                 Form("E_vs_theta_e_all_events_%d_%d6.12s", sec,
+                                      Q2_BIN_NAME[q2].c_str()),
                                  bins, zero, 40.0, bins, zero, p_max);
-      E_vs_theta_e_elastic_events[sec][q2] = std::make_shared<TH2D>(
-          Form("E_vs_theta_e_elastic_events_%d_%d", sec, q2),
-          Form("E_vs_theta_e_elastic_events_%d_%d", sec, q2), bins, zero, 40.0,
-          bins, zero, p_max);
+      E_vs_theta_e_elastic_events[sec][q2] =
+          std::make_shared<TH2D>(Form("E_vs_theta_e_elastic_events_%d_%d6.12s",
+                                      sec, Q2_BIN_NAME[q2].c_str()),
+                                 Form("E_vs_theta_e_elastic_events_%d_%d6.12s",
+                                      sec, Q2_BIN_NAME[q2].c_str()),
+                                 bins, zero, 40.0, bins, zero, p_max);
       E_vs_theta_e_2nd_reso_events[sec][q2] = std::make_shared<TH2D>(
-          Form("E_vs_theta_e_2nd_resonance_region_%d_%d", sec, q2),
-          Form("E_vs_theta_e_2nd_resonance_region_%d_%d", sec, q2), bins, zero,
-          40.0, bins, zero, p_max);
+          Form("E_vs_theta_e_2nd_resonance_region_%d_%d6.12s", sec,
+               Q2_BIN_NAME[q2].c_str()),
+          Form("E_vs_theta_e_2nd_resonance_region_%d_%d6.12s", sec,
+               Q2_BIN_NAME[q2].c_str()),
+          bins, zero, 40.0, bins, zero, p_max);
       E_vs_theta_e_3rd_reso_events[sec][q2] = std::make_shared<TH2D>(
-          Form("E_vs_theta_e_3rd_resonance_region_%d_%d", sec, q2),
-          Form("E_vs_theta_e_3rd_resonance_region_%d_%d", sec, q2), bins, zero,
-          40.0, bins, zero, p_max);
+          Form("E_vs_theta_e_3rd_resonance_region_%d_%d6.12s", sec,
+               Q2_BIN_NAME[q2].c_str()),
+          Form("E_vs_theta_e_3rd_resonance_region_%d_%d6.12s", sec,
+               Q2_BIN_NAME[q2].c_str()),
+          bins, zero, 40.0, bins, zero, p_max);
 
-      W_hist_NPip_before_mmsq_cut_events[sec][q2] = std::make_shared<TH1D>(
-          Form("W_hist_NPip_events_sec_%d_%d", sec, q2),
-          Form("W_hist_NPip_events_sec_%d_%d", sec, q2), bins, zero, w_max);
+      W_hist_NPip_before_mmsq_cut_events[sec][q2] =
+          std::make_shared<TH1D>(Form("W_hist_NPip_events_sec_%d_%d6.12s", sec,
+                                      Q2_BIN_NAME[q2].c_str()),
+                                 Form("W_hist_NPip_events_sec_%d_%d6.12s", sec,
+                                      Q2_BIN_NAME[q2].c_str()),
+                                 bins, zero, w_max);
 
       W_hist_NPip_events[sec][q2] = std::make_shared<TH1D>(
-          Form("W_hist_NPip_sec_%d_%d", sec, q2),
-          Form("W_hist_NPip_sec_%d_%d", sec, q2), bins, 0.0, w_max);
+          Form("W_hist_NPip_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()),
+          Form("W_hist_NPip_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()),
+          bins, 0.0, w_max);
       MM2_hist_NPip_events[sec][q2] = std::make_shared<TH1D>(
-          Form("MM2_hist_NPip_sec_%d_%d", sec, q2),
-          Form("MM2_hist_NPip_sec_%d_%d", sec, q2), bins, -1.0, 16.0);
+          Form("MM2_hist_NPip_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()),
+          Form("MM2_hist_NPip_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()),
+          bins, -1.0, 16.0);
 
       W_hist_all_events[sec][q2] = std::make_shared<TH1D>(
-          Form("W_hist_sec_%d_%d", sec, q2), Form("W_hist_sec_%d_%d", sec, q2),
-          bins, zero, w_max);
+          Form("W_hist_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()),
+          Form("W_hist_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()), bins,
+          zero, w_max);
 
       W_vs_q2_all_events[sec][q2] = std::make_shared<TH2D>(
-          Form("WQ2_sec_%d_%d", sec, q2), Form("WQ2_sec_%d_%d", sec, q2), bins,
-          zero, w_max, bins, zero, q2_max);
+          Form("WQ2_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()),
+          Form("WQ2_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()), bins, zero,
+          w_max, bins, zero, q2_max);
 
       MissingMass[sec][q2] = std::make_shared<TH1D>(
-          Form("MM2_hist_sec_%d_%d", sec, q2),
-          Form("MM2_hist_sec_%d_%d", sec, q2), bins, -w_max, w_max);
+          Form("MM2_hist_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()),
+          Form("MM2_hist_sec_%d_%d6.12s", sec, Q2_BIN_NAME[q2].c_str()), bins,
+          -w_max, w_max);
     }
   }
 }
