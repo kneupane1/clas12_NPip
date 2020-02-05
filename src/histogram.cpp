@@ -43,48 +43,50 @@ void Histogram::makeHists() {
       "DeltaTProton_cut", "DeltaTProton_cut", bins, zero, 10, bins, -5, 5);
 
   for (short sec = 0; sec < NUM_SECTORS; sec++) {
-    E_vs_theta_e_all_events[sec] =
-        std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d", sec),
-                               Form("E_vs_theta_e_all_events_%d", sec), bins,
-                               zero, 40.0, bins, zero, p_max);
-    E_vs_theta_e_elastic_events[sec] =
-        std::make_shared<TH2D>(Form("E_vs_theta_e_elastic_events_%d", sec),
-                               Form("E_vs_theta_e_elastic_events_%d", sec),
-                               bins, zero, 40.0, bins, zero, p_max);
-    E_vs_theta_e_2nd_reso_events[sec] = std::make_shared<TH2D>(
-        Form("E_vs_theta_e_2nd_resonance_region_%d", sec),
-        Form("E_vs_theta_e_2nd_resonance_region_%d", sec), bins, zero, 40.0,
-        bins, zero, p_max);
-    E_vs_theta_e_3rd_reso_events[sec] = std::make_shared<TH2D>(
-        Form("E_vs_theta_e_3rd_resonance_region_%d", sec),
-        Form("E_vs_theta_e_3rd_resonance_region_%d", sec), bins, zero, 40.0,
-        bins, zero, p_max);
-
-    W_hist_NPip_before_mmsq_cut_events[sec] = std::make_shared<TH1D>(
-        Form("W_hist_NPip_events_sec_%d", sec),
-        Form("W_hist_NPip_events_sec_%d", sec), bins, zero, w_max);
-
-    W_hist_NPip_events[sec] = std::make_shared<TH1D>(
-        Form("W_hist_NPip_sec_%d", sec), Form("W_hist_NPip_sec_%d", sec), bins,
-        0.0, w_max);
-    MM2_hist_NPip_events[sec] = std::make_shared<TH1D>(
-        Form("MM2_hist_NPip_sec_%d", sec), Form("MM2_hist_NPip_sec_%d", sec),
-        bins, -1.0, 16.0);
 
     MissingMass[sec] = std::make_shared<TH1D>(Form("MM2_hist_sec_%d", sec),
                                               Form("MM2_hist_sec_%d", sec),
                                               bins, -w_max, w_max);
+    for (short q2 = 0; q2 < NUM_Q2_BINS; q2++) {
 
-    W_hist_all_events[sec] =
-        std::make_shared<TH1D>(Form("W_hist_sec_%d", sec),
-                               Form("W_hist_sec_%d", sec), bins, zero, w_max);
+      E_vs_theta_e_all_events[sec][q2] =
+          std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d_%d", sec, q2),
+                                 Form("E_vs_theta_e_all_events_%d_%d", sec, q2),
+                                 bins, zero, 40.0, bins, zero, p_max);
+      E_vs_theta_e_elastic_events[sec][q2] = std::make_shared<TH2D>(
+          Form("E_vs_theta_e_elastic_events_%d_%d", sec, q2),
+          Form("E_vs_theta_e_elastic_events_%d_%d", sec, q2), bins, zero, 40.0,
+          bins, zero, p_max);
+      E_vs_theta_e_2nd_reso_events[sec][q2] = std::make_shared<TH2D>(
+          Form("E_vs_theta_e_2nd_resonance_region_%d_%d", sec, q2),
+          Form("E_vs_theta_e_2nd_resonance_region_%d_%d", sec, q2), bins, zero,
+          40.0, bins, zero, p_max);
+      E_vs_theta_e_3rd_reso_events[sec][q2] = std::make_shared<TH2D>(
+          Form("E_vs_theta_e_3rd_resonance_region_%d_%d", sec, q2),
+          Form("E_vs_theta_e_3rd_resonance_region_%d_%d", sec, q2), bins, zero,
+          40.0, bins, zero, p_max);
 
-    W_vs_q2_all_events[sec] =
-        std::make_shared<TH2D>(Form("WQ2_sec_%d", sec), Form("WQ2_sec_%d", sec),
-                               bins, zero, w_max, bins, zero, q2_max);
+      W_hist_NPip_before_mmsq_cut_events[sec][q2] = std::make_shared<TH1D>(
+          Form("W_hist_NPip_events_sec_%d_%d", sec, q2),
+          Form("W_hist_NPip_events_sec_%d_%d", sec, q2), bins, zero, w_max);
+
+      W_hist_NPip_events[sec][q2] = std::make_shared<TH1D>(
+          Form("W_hist_NPip_sec_%d_%d", sec, q2),
+          Form("W_hist_NPip_sec_%d_%d", sec, q2), bins, 0.0, w_max);
+      MM2_hist_NPip_events[sec][q2] = std::make_shared<TH1D>(
+          Form("MM2_hist_NPip_sec_%d_%d", sec, q2),
+          Form("MM2_hist_NPip_sec_%d_%d", sec, q2), bins, -1.0, 16.0);
+
+      W_hist_all_events[sec][q2] = std::make_shared<TH1D>(
+          Form("W_hist_sec_%d_%d", sec, q2), Form("W_hist_sec_%d_%d", sec, q2),
+          bins, zero, w_max);
+
+      W_vs_q2_all_events[sec][q2] = std::make_shared<TH2D>(
+          Form("WQ2_sec_%d_%d", sec, q2), Form("WQ2_sec_%d_%d", sec, q2), bins,
+          zero, w_max, bins, zero, q2_max);
+    }
   }
 }
-
 void Histogram::makeHists_electron_cuts() {
   for (auto &&cut : before_after_cut) {
     int c = cut.first;
@@ -180,46 +182,175 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
 
   if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
 
-    W_hist_all_events[all_sectors]->Fill(_e->W());
-    W_vs_q2_all_events[all_sectors]->Fill(_e->W(), _e->Q2());
-    W_hist_all_events[sec]->Fill(_e->W());
-    W_vs_q2_all_events[sec]->Fill(_e->W(), _e->Q2());
-    E_vs_theta_e_all_events[all_sectors]->Fill(_e->theta_elec(), _e->E_elec());
-    E_vs_theta_e_all_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
-
+    W_hist_all_events[all_sectors][0]->Fill(_e->W());
+    W_vs_q2_all_events[all_sectors][0]->Fill(_e->W(), _e->Q2());
+    W_hist_all_events[sec][0]->Fill(_e->W());
+    W_vs_q2_all_events[sec][0]->Fill(_e->W(), _e->Q2());
+    E_vs_theta_e_all_events[all_sectors][0]->Fill(_e->theta_elec(),
+                                                  _e->E_elec());
+    E_vs_theta_e_all_events[sec][0]->Fill(_e->theta_elec(), _e->E_elec());
     if (_e->elastic()) {
-      E_vs_theta_e_elastic_events[all_sectors]->Fill(_e->theta_elec(),
-                                                     _e->E_elec());
-      E_vs_theta_e_elastic_events[sec]->Fill(_e->theta_elec(), _e->E_elec());
-      MissingMass[all_sectors]->Fill(_e->MM2());
-      MissingMass[sec]->Fill(_e->MM2());
+      E_vs_theta_e_elastic_events[all_sectors][0]->Fill(_e->theta_elec(),
+                                                        _e->E_elec());
+      E_vs_theta_e_elastic_events[sec][0]->Fill(_e->theta_elec(), _e->E_elec());
+      MissingMass[all_sectors][0]->Fill(_e->MM2());
+      MissingMass[sec[0]]->Fill(_e->MM2());
     }
 
     if (_e->NPip()) {
-      W_hist_NPip_before_mmsq_cut_events[all_sectors]->Fill(_e->W());
-      W_hist_NPip_before_mmsq_cut_events[sec]->Fill(_e->W());
-      MM2_hist_NPip_events[all_sectors]->Fill(_e->MM2_NPip());
-      MM2_hist_NPip_events[sec]->Fill(_e->MM2_NPip());
+      W_hist_NPip_before_mmsq_cut_events[all_sectors][0]->Fill(_e->W());
+      W_hist_NPip_before_mmsq_cut_events[sec][0]->Fill(_e->W());
+      MM2_hist_NPip_events[all_sectors][0]->Fill(_e->MM2_NPip());
+      MM2_hist_NPip_events[sec][0]->Fill(_e->MM2_NPip());
       MM_hist_NPip_before_cut->Fill(_e->MM_NPip());
       MM2_hist_NPip_before_cut->Fill(_e->MM2_NPip());
       if (_e->MM_NPip_cut()) {
-        W_hist_NPip_events[all_sectors]->Fill(_e->W());
-        W_hist_NPip_events[sec]->Fill(_e->W());
+        W_hist_NPip_events[all_sectors][0]->Fill(_e->W());
+        W_hist_NPip_events[sec][0]->Fill(_e->W());
         MM_hist_NPip->Fill(_e->MM_NPip());
         MM2_hist_NPip->Fill(_e->MM2_NPip());
 
         Q2_hist_NPip->Fill(_e->Q2());
 
         if (_e->W() > 1.44 && _e->W() < 1.58) {
-          E_vs_theta_e_2nd_reso_events[all_sectors]->Fill(_e->theta_elec(),
-                                                          _e->E_elec());
-          E_vs_theta_e_2nd_reso_events[sec]->Fill(_e->theta_elec(),
-                                                  _e->E_elec());
+          E_vs_theta_e_2nd_reso_events[all_sectors][0]->Fill(_e->theta_elec(),
+                                                             _e->E_elec());
+          E_vs_theta_e_2nd_reso_events[sec][0]->Fill(_e->theta_elec(),
+                                                     _e->E_elec());
         } else if (_e->W() > 1.64 && _e->W() < 1.73) {
-          E_vs_theta_e_3rd_reso_events[all_sectors]->Fill(_e->theta_elec(),
+          E_vs_theta_e_3rd_reso_events[all_sectors][0](_e->theta_elec(),
+                                                       _e->E_elec());
+          E_vs_theta_e_3rd_reso_events[sec][0](_e->theta_elec(), _e->E_elec());
+        }
+      }
+    }
+
+    if (_e->Q2() < 2.0) {
+
+      W_hist_all_events[all_sectors][1]->Fill(_e->W());
+      W_vs_q2_all_events[all_sectors][1]->Fill(_e->W(), _e->Q2());
+      W_hist_all_events[sec][1]->Fill(_e->W());
+      W_vs_q2_all_events[sec][1]->Fill(_e->W(), _e->Q2());
+      E_vs_theta_e_all_events[all_sectors][1]->Fill(_e->theta_elec(),
+                                                    _e->E_elec());
+      E_vs_theta_e_all_events[sec][1]->Fill(_e->theta_elec(), _e->E_elec());
+      if (_e->elastic()) {
+        E_vs_theta_e_elastic_events[all_sectors][1]->Fill(_e->theta_elec(),
                                                           _e->E_elec());
-          E_vs_theta_e_3rd_reso_events[sec]->Fill(_e->theta_elec(),
+        E_vs_theta_e_elastic_events[sec][1]->Fill(_e->theta_elec(),
                                                   _e->E_elec());
+        MissingMass[all_sectors][1]->Fill(_e->MM2());
+        MissingMass[sec[1]]->Fill(_e->MM2());
+      }
+
+      if (_e->NPip()) {
+        W_hist_NPip_before_mmsq_cut_events[all_sectors][1]->Fill(_e->W());
+        W_hist_NPip_before_mmsq_cut_events[sec][1]->Fill(_e->W());
+        MM2_hist_NPip_events[all_sectors][1]->Fill(_e->MM2_NPip());
+        MM2_hist_NPip_events[sec][1]->Fill(_e->MM2_NPip());
+
+        if (_e->MM_NPip_cut()) {
+          W_hist_NPip_events[all_sectors][1]->Fill(_e->W());
+          W_hist_NPip_events[sec][1]->Fill(_e->W());
+
+          Q2_hist_NPip->Fill(_e->Q2());
+
+          if (_e->W() > 1.44 && _e->W() < 1.58) {
+            E_vs_theta_e_2nd_reso_events[all_sectors][1]->Fill(_e->theta_elec(),
+                                                               _e->E_elec());
+            E_vs_theta_e_2nd_reso_events[sec][1]->Fill(_e->theta_elec(),
+                                                       _e->E_elec());
+          } else if (_e->W() > 1.64 && _e->W() < 1.73) {
+            E_vs_theta_e_3rd_reso_events[all_sectors][1](_e->theta_elec(),
+                                                         _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[sec][1](_e->theta_elec(),
+                                                 _e->E_elec());
+          }
+        }
+      }
+    } else if (_e->Q2() > 2. && _e->Q2() < 3.5) {
+
+      W_hist_all_events[all_sectors][2]->Fill(_e->W());
+      W_vs_q2_all_events[all_sectors][2]->Fill(_e->W(), _e->Q2());
+      W_hist_all_events[sec][2]->Fill(_e->W());
+      W_vs_q2_all_events[sec][2]->Fill(_e->W(), _e->Q2());
+      E_vs_theta_e_all_events[all_sectors][2]->Fill(_e->theta_elec(),
+                                                    _e->E_elec());
+      E_vs_theta_e_all_events[sec][2]->Fill(_e->theta_elec(), _e->E_elec());
+      if (_e->elastic()) {
+        E_vs_theta_e_elastic_events[all_sectors][2]->Fill(_e->theta_elec(),
+                                                          _e->E_elec());
+        E_vs_theta_e_elastic_events[sec][2]->Fill(_e->theta_elec(),
+                                                  _e->E_elec());
+        MissingMass[all_sectors][2]->Fill(_e->MM2());
+        MissingMass[sec[2]]->Fill(_e->MM2());
+      }
+
+      if (_e->NPip()) {
+        W_hist_NPip_before_mmsq_cut_events[all_sectors][2]->Fill(_e->W());
+        W_hist_NPip_before_mmsq_cut_events[sec][2]->Fill(_e->W());
+        MM2_hist_NPip_events[all_sectors][2]->Fill(_e->MM2_NPip());
+        MM2_hist_NPip_events[sec][2]->Fill(_e->MM2_NPip());
+
+        if (_e->MM_NPip_cut()) {
+          W_hist_NPip_events[all_sectors][2]->Fill(_e->W());
+          W_hist_NPip_events[sec][2]->Fill(_e->W());
+
+          Q2_hist_NPip->Fill(_e->Q2());
+
+          if (_e->W() > 1.44 && _e->W() < 1.58) {
+            E_vs_theta_e_2nd_reso_events[all_sectors][2]->Fill(_e->theta_elec(),
+                                                               _e->E_elec());
+            E_vs_theta_e_2nd_reso_events[sec][2]->Fill(_e->theta_elec(),
+                                                       _e->E_elec());
+          } else if (_e->W() > 1.64 && _e->W() < 1.73) {
+            E_vs_theta_e_3rd_reso_events[all_sectors][2](_e->theta_elec(),
+                                                         _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[sec][2](_e->theta_elec(),
+                                                 _e->E_elec());
+          }
+        }
+      }
+    } else if (_e->Q2() > 3.5 && _e->Q2() < 12.0) {
+      W_hist_all_events[all_sectors][1]->Fill(_e->W());
+      W_vs_q2_all_events[all_sectors][1]->Fill(_e->W(), _e->Q2());
+      W_hist_all_events[sec][1]->Fill(_e->W());
+      W_vs_q2_all_events[sec][1]->Fill(_e->W(), _e->Q2());
+      E_vs_theta_e_all_events[all_sectors][1]->Fill(_e->theta_elec(),
+                                                    _e->E_elec());
+      E_vs_theta_e_all_events[sec][1]->Fill(_e->theta_elec(), _e->E_elec());
+      if (_e->elastic()) {
+        E_vs_theta_e_elastic_events[all_sectors][1]->Fill(_e->theta_elec(),
+                                                          _e->E_elec());
+        E_vs_theta_e_elastic_events[sec][1]->Fill(_e->theta_elec(),
+                                                  _e->E_elec());
+        MissingMass[all_sectors][1]->Fill(_e->MM2());
+        MissingMass[sec[1]]->Fill(_e->MM2());
+      }
+
+      if (_e->NPip()) {
+        W_hist_NPip_before_mmsq_cut_events[all_sectors][1]->Fill(_e->W());
+        W_hist_NPip_before_mmsq_cut_events[sec][1]->Fill(_e->W());
+        MM2_hist_NPip_events[all_sectors][1]->Fill(_e->MM2_NPip());
+        MM2_hist_NPip_events[sec][1]->Fill(_e->MM2_NPip());
+
+        if (_e->MM_NPip_cut()) {
+          W_hist_NPip_events[all_sectors][1]->Fill(_e->W());
+          W_hist_NPip_events[sec][1]->Fill(_e->W());
+
+          Q2_hist_NPip->Fill(_e->Q2());
+
+          if (_e->W() > 1.44 && _e->W() < 1.58) {
+            E_vs_theta_e_2nd_reso_events[all_sectors][1]->Fill(_e->theta_elec(),
+                                                               _e->E_elec());
+            E_vs_theta_e_2nd_reso_events[sec][1]->Fill(_e->theta_elec(),
+                                                       _e->E_elec());
+          } else if (_e->W() > 1.64 && _e->W() < 1.73) {
+            E_vs_theta_e_3rd_reso_events[all_sectors][1](_e->theta_elec(),
+                                                         _e->E_elec());
+            E_vs_theta_e_3rd_reso_events[sec][1](_e->theta_elec(),
+                                                 _e->E_elec());
+          }
         }
       }
     }
@@ -241,18 +372,21 @@ void Histogram::Write_WvsQ2() {
   TDirectory *W_vs_Q2_folder = RootOutputFile->mkdir("W_vs_Q2");
   W_vs_Q2_folder->cd();
   for (int i = 0; i < NUM_SECTORS; i++) {
-    MissingMass[i]->SetXTitle("MM^2 (GeV)");
-    MissingMass[i]->Write();
+    for (int j = 0; j < NUM_Q2_BINS; j++) {
 
-    // W_hist_all_events[i] -> Fit("gaus", "QMR+", "QMR+", 0.8, 1.1);
-    // gStyle->SetOptFit(1111);
-    W_hist_all_events[i]->SetXTitle("W (GeV)");
-    W_hist_all_events[i]->Write();
+      MissingMass[i][j]->SetXTitle("MM^2 (GeV)");
+      MissingMass[i][j]->Write();
 
-    W_vs_q2_all_events[i]->SetXTitle("W (GeV)");
-    W_vs_q2_all_events[i]->SetYTitle("Q^2 (GeV^2)");
-    W_vs_q2_all_events[i]->SetOption("COLZ");
-    W_vs_q2_all_events[i]->Write();
+      // W_hist_all_events[i][j] -> Fit("gaus", "QMR+", "QMR+", 0.8, 1.1);
+      // gStyle->SetOptFit(1111);
+      W_hist_all_events[i][j]->SetXTitle("W (GeV)");
+      W_hist_all_events[i][j]->Write();
+
+      W_vs_q2_all_events[i][j]->SetXTitle("W (GeV)");
+      W_vs_q2_all_events[i][j]->SetYTitle("Q^2 (GeV^2)");
+      W_vs_q2_all_events[i][j]->SetOption("COLZ");
+      W_vs_q2_all_events[i][j]->Write();
+    }
   }
   W_vs_Q2_folder->Write();
   delete W_vs_Q2_folder;
@@ -263,44 +397,47 @@ void Histogram::Write_WvsQ2() {
   // auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W NPip
   // sectors", 1920, 1080); W_NPip_can->Divide(4, 2);
   for (short i = 0; i < NUM_SECTORS; i++) {
-    W_hist_NPip_events[i]->SetXTitle("W (GeV)");
-    W_hist_NPip_events[i]->Write();
-    // W_NPip_can->cd(i + 1);
-    // W_hist_NPip_events[i]->Draw("same");
-    //}
-    // W_NPip_can->Write();
-    // for (short i = 0; i < NUM_SECTORS; i++) {
-    W_hist_NPip_before_mmsq_cut_events[i]->SetXTitle("W (GeV)");
-    W_hist_NPip_before_mmsq_cut_events[i]->Write();
+    for (int j = 0; j < NUM_Q2_BINS; j++) {
 
-    E_vs_theta_e_all_events[i]->SetXTitle("theta (deg)");
-    E_vs_theta_e_all_events[i]->SetYTitle("E' (GeV)");
-    E_vs_theta_e_all_events[i]->SetOption("COLZ");
-    E_vs_theta_e_all_events[i]->Write();
+      W_hist_NPip_events[i][j]->SetXTitle("W (GeV)");
+      W_hist_NPip_events[i][j]->Write();
+      // W_NPip_can->cd(i + 1);
+      // W_hist_NPip_events[i][j]->Draw("same");
+      //}
+      // W_NPip_can->Write();
+      // for (short i = 0; i < NUM_SECTORS; i++) {
+      W_hist_NPip_before_mmsq_cut_events[i][j]->SetXTitle("W (GeV)");
+      W_hist_NPip_before_mmsq_cut_events[i][j]->Write();
 
-    E_vs_theta_e_elastic_events[i]->SetXTitle("theta (deg)");
-    E_vs_theta_e_elastic_events[i]->SetYTitle("E' (GeV)");
-    E_vs_theta_e_elastic_events[i]->SetOption("COLZ");
-    E_vs_theta_e_elastic_events[i]->Write();
+      E_vs_theta_e_all_events[i][j]->SetXTitle("theta (deg)");
+      E_vs_theta_e_all_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_all_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_all_events[i][j]->Write();
 
-    E_vs_theta_e_2nd_reso_events[i]->SetXTitle("theta (deg)");
-    E_vs_theta_e_2nd_reso_events[i]->SetYTitle("E' (GeV)");
-    E_vs_theta_e_2nd_reso_events[i]->SetOption("COLZ");
-    E_vs_theta_e_2nd_reso_events[i]->Write();
+      E_vs_theta_e_elastic_events[i][j]->SetXTitle("theta (deg)");
+      E_vs_theta_e_elastic_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_elastic_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_elastic_events[i][j]->Write();
 
-    E_vs_theta_e_3rd_reso_events[i]->SetXTitle("theta_ (deg)");
-    E_vs_theta_e_3rd_reso_events[i]->SetYTitle("E' (GeV)");
-    E_vs_theta_e_3rd_reso_events[i]->SetOption("COLZ");
-    E_vs_theta_e_3rd_reso_events[i]->Write();
-    //}
+      E_vs_theta_e_2nd_reso_events[i][j]->SetXTitle("theta (deg)");
+      E_vs_theta_e_2nd_reso_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_2nd_reso_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_2nd_reso_events[i][j]->Write();
 
-    // auto MM2_NPip_can = std::make_unique<TCanvas>("MM2 NPip_can", "MM2 NPip
-    // sectors", 1920, 1080); MM2_NPip_can->Divide(4, 2); for (short i = 0; i
-    // < NUM_SECTORS; i++) {
-    MM2_hist_NPip_events[i]->SetXTitle("MM2 (GeV)");
-    MM2_hist_NPip_events[i]->Write();
-    //  MM2_NPip_can->cd(i + 1);
-    //  MM2_hist_NPip_events[i]->Draw("same");
+      E_vs_theta_e_3rd_reso_events[i][j]->SetXTitle("theta_ (deg)");
+      E_vs_theta_e_3rd_reso_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_3rd_reso_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_3rd_reso_events[i][j]->Write();
+      //}
+
+      // auto MM2_NPip_can = std::make_unique<TCanvas>("MM2 NPip_can", "MM2 NPip
+      // sectors", 1920, 1080); MM2_NPip_can->Divide(4, 2); for (short i = 0; i
+      // < NUM_SECTORS; i++) {
+      MM2_hist_NPip_events[i][j]->SetXTitle("MM2 (GeV)");
+      MM2_hist_NPip_events[i][j]->Write();
+      //  MM2_NPip_can->cd(i + 1);
+      //  MM2_hist_NPip_events[i][j]->Draw("same");
+    }
   }
   // MM2_NPip_can->Write();
   NPip_folder->Write();

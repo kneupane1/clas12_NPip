@@ -31,13 +31,17 @@ using TGraph_ptr = std::shared_ptr<TGraph>;
 class Histogram {
 protected:
   static const short NUM_SECTORS = 7;
+  static const short NUM_Q2_BINS = 5;
+  // std::string Q2_BIN_NAME[NUM_Q2_BINS] = {" all" ," < 2 GeV", " 2-3.5 GeV", "
+  // 3-4 GeV",
+  //                                         " > 3.5 GeV"};
   static const short NUM_DET = 3;
   static const short CUTS = 2;
   // enum to easily access detector and sector information
   enum cuts { before_cut, after_cut };
   enum detector { both_detectors, forward, central };
-  enum sector { all_sectors, one, two, three, four, five };
-
+  enum sector { all_sectors, one, two, three, four, five, six };
+  enum q2_bins { all, <2.0, 2.0 - 3.5, > 3.5 };
   // Mutex needed for filling some histograms
   std::mutex mutex;
 
@@ -89,17 +93,17 @@ protected:
   // TGraph_ptr SF_gr_upper;
   // TGraph_ptr SF_gr_lower;
   // Kinematics
-  TH1D_ptr W_hist_NPip_events[NUM_SECTORS];
-  TH1D_ptr MM2_hist_NPip_events[NUM_SECTORS];
-  TH2D_ptr E_vs_theta_e_all_events[NUM_SECTORS];
-  TH2D_ptr E_vs_theta_e_elastic_events[NUM_SECTORS];
-  TH2D_ptr E_vs_theta_e_2nd_reso_events[NUM_SECTORS];
-  TH2D_ptr E_vs_theta_e_3rd_reso_events[NUM_SECTORS];
-  TH1D_ptr W_hist_NPip_before_mmsq_cut_events[NUM_SECTORS];
-  TH1D_ptr W_hist_all_events[NUM_SECTORS];
-  TH2D_ptr W_vs_q2_all_events[NUM_SECTORS];
+  TH1D_ptr W_hist_NPip_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH1D_ptr MM2_hist_NPip_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH2D_ptr E_vs_theta_e_all_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH2D_ptr E_vs_theta_e_elastic_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH2D_ptr E_vs_theta_e_2nd_reso_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH2D_ptr E_vs_theta_e_3rd_reso_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH1D_ptr W_hist_NPip_before_mmsq_cut_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH1D_ptr W_hist_all_events[NUM_SECTORS][NUM_Q2_BINS];
+  TH2D_ptr W_vs_q2_all_events[NUM_SECTORS][NUM_Q2_BINS];
 
-  TH1D_ptr MissingMass[NUM_SECTORS];
+  TH1D_ptr MissingMass[NUM_SECTORS][NUM_Q2_BINS];
   TH2D_ptr deltaT_proton[CUTS];
 
   std::shared_ptr<THnSparse> Nsparce;
