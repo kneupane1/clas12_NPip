@@ -141,7 +141,7 @@ float Reaction::E_elec() { return _E_elec; }
 
 void Reaction::CalcMassPi0() {
   _pi0_mass = 0;
-  if (_photons.size() == 2) {
+  if (_photons.size() > 1) { // ==2 thyo
     auto mass = std::make_unique<TLorentzVector>();
     for (auto &_p : _photons)
       *mass -= *_p;

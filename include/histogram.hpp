@@ -101,6 +101,8 @@ protected:
   TH1D_ptr W_hist_all_events[NUM_SECTORS][NUM_Q2_BINS];
   TH2D_ptr W_vs_q2_all_events[NUM_SECTORS][NUM_Q2_BINS];
 
+  TH1D_ptr mass_pi0_hist[CUTS][NUM_SECTORS];
+
   TH1D_ptr MissingMass[NUM_SECTORS][NUM_Q2_BINS];
   TH2D_ptr deltaT_proton[CUTS];
 

@@ -140,7 +140,7 @@ public:
 
   inline bool elastic() { // onePositive_at180_MM0() {
     return (_hasE && _hasPos && _pos.size() == 1 && _other.size() == 0 &&
-            phi_diff_180() /* && MM_cut()*/);
+            phi_diff_180() && MM_cut());
   }
 
   inline bool MM_NPip_cut() {

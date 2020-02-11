@@ -44,6 +44,13 @@ void Histogram::makeHists() {
 
   for (short sec = 0; sec < NUM_SECTORS; sec++) {
 
+    mass_pi0_hist[before_cut][sec] =
+        std::make_shared<TH1D>(Form("mass_pi0_hist_%d", sec),
+                               Form("mass_pi0_hist_%d", sec), bins, 0, 2.5);
+    mass_pi0_hist[after_cut][sec] = std::make_shared<TH1D>(
+        Form("mass_pi0_hist_aferPcuts_%d", sec),
+        Form("mass_pi0_hist_aferPcuts_%d", sec), bins, 0, 2.5);
+
     for (short q2 = 0; q2 < NUM_Q2_BINS; q2++) {
       E_vs_theta_e_all_events[sec][q2] =
           std::make_shared<TH2D>(Form("E_vs_theta_e_all_events_%d_%6.12s", sec,
@@ -373,7 +380,20 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
     }
   }
 }
-
+void Histogram::Fill_pi0(const std::shared_ptr<Reaction> &_e) {
+  if (_e->pi0_mass() < 0.0001)
+    return;
+  short sec = _e->sec();
+  short pos_det = _e->pos_det();
+  mass_pi0_hist[before_cut][all_sectors]->Fill(_e->pi0_mass());
+  if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
+    mass_pi0_hist[before_cut][sec]->Fill(_e->pi0_mass());
+    if (_e->onePositive_at180_MM0()) {
+      mass_pi0_hist[after_cut][all_sectors]->Fill(_e->pi0_mass());
+      mass_pi0_hist[after_cut][sec]->Fill(_e->pi0_mass());
+    }
+  }
+}
 void Histogram::Write_WvsQ2() {
   MM_hist_NPip_before_cut->SetXTitle("MM (GeV)");
   MM_hist_NPip_before_cut->Write();
@@ -389,6 +409,11 @@ void Histogram::Write_WvsQ2() {
   TDirectory *W_vs_Q2_folder = RootOutputFile->mkdir("W_vs_Q2");
   W_vs_Q2_folder->cd();
   for (int i = 0; i < NUM_SECTORS; i++) {
+    mass_pi0_hist[before_cut][i]->SetXTitle("MM(GeV)");
+    mass_pi0_hist[before_cut][i]->Write();
+
+    mass_pi0_hist[after_cut][i]->SetXTitle("MM(GeV)");
+    mass_pi0_hist[after_cut][i]->Write();
     for (int j = 0; j < NUM_Q2_BINS; j++) {
 
       MissingMass[i][j]->SetXTitle("MM^2 (GeV)");
