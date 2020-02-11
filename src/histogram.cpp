@@ -388,7 +388,7 @@ void Histogram::Fill_pi0(const std::shared_ptr<Reaction> &_e) {
   mass_pi0_hist[before_cut][all_sectors]->Fill(_e->pi0_mass());
   if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
     mass_pi0_hist[before_cut][sec]->Fill(_e->pi0_mass());
-    if (_e->onePositive_at180_MM0()) {
+    if (_e->elastic()) {
       mass_pi0_hist[after_cut][all_sectors]->Fill(_e->pi0_mass());
       mass_pi0_hist[after_cut][sec]->Fill(_e->pi0_mass());
     }
