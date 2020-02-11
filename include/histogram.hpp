@@ -116,6 +116,7 @@ public:
   void makeHists();
   void Fill_WvsQ2(const std::shared_ptr<Reaction> &_e);
   void Write_WvsQ2();
+  void Fill_pi0(const std::shared_ptr<Reaction> &_e);
 
   // ecectron cuts
   void makeHists_electron_cuts();
