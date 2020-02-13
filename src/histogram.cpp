@@ -203,7 +203,8 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
   short pos_det = _e->pos_det();
   short sec = _e->sec();
 
-  if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
+  if ((_e->W() > 1.0 && _e->W() < 2.0) && (sec > 0 && sec < NUM_SECTORS) ||
+      pos_det != -1) {
 
     W_hist_all_events[all_sectors][0]->Fill(_e->W());
     W_vs_q2_all_events[all_sectors][0]->Fill(_e->W(), _e->Q2());

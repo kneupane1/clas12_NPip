@@ -87,7 +87,7 @@ size_t run(std::shared_ptr<TChain> _chain,
         event->SetOther(part);
       }
     }
-    _hists->Fill_pi0(events);
+    _hists->Fill_pi0(event);
     _hists->Fill_Sparce(event);
 
     //    if (event->NPip()) {
