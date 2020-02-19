@@ -407,122 +407,122 @@ void Histogram::Fill_WvsQ2(const std::shared_ptr<Reaction> &_e) {
   //       }
   //     }
   //   }
-  // }
+}
 
-  void Histogram::Fill_pi0(const std::shared_ptr<Reaction> &_e) {
-    if (_e->pi0_mass() < 0.0001)
-      return;
-    short sec = _e->sec();
-    short pos_det = _e->pos_det();
-    mass_pi0_hist[before_cut][all_sectors]->Fill(_e->pi0_mass());
-    if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
-      mass_pi0_hist[before_cut][sec]->Fill(_e->pi0_mass());
-      if (_e->elastic()) {
-        mass_pi0_hist[after_cut][all_sectors]->Fill(_e->pi0_mass());
-        mass_pi0_hist[after_cut][sec]->Fill(_e->pi0_mass());
-      }
+void Histogram::Fill_pi0(const std::shared_ptr<Reaction> &_e) {
+  if (_e->pi0_mass() < 0.0001)
+    return;
+  short sec = _e->sec();
+  short pos_det = _e->pos_det();
+  mass_pi0_hist[before_cut][all_sectors]->Fill(_e->pi0_mass());
+  if ((sec > 0 && sec < NUM_SECTORS) || pos_det != -1) {
+    mass_pi0_hist[before_cut][sec]->Fill(_e->pi0_mass());
+    if (_e->elastic()) {
+      mass_pi0_hist[after_cut][all_sectors]->Fill(_e->pi0_mass());
+      mass_pi0_hist[after_cut][sec]->Fill(_e->pi0_mass());
     }
   }
-  void Histogram::Write_WvsQ2() {
-    MM_hist_NPip_before_cut->SetXTitle("MM (GeV)");
-    MM_hist_NPip_before_cut->Write();
-    MM2_hist_NPip_before_cut->SetXTitle("MM2 (GeV)");
-    MM2_hist_NPip_before_cut->Write();
-    MM_hist_NPip->SetXTitle("MM (GeV)");
-    MM_hist_NPip->Write();
-    MM2_hist_NPip->SetXTitle("MM2 (GeV)");
-    MM2_hist_NPip->Write();
-    Q2_hist_NPip->SetTitle("Q2_NPip");
-    Q2_hist_NPip->Write();
+}
+void Histogram::Write_WvsQ2() {
+  MM_hist_NPip_before_cut->SetXTitle("MM (GeV)");
+  MM_hist_NPip_before_cut->Write();
+  MM2_hist_NPip_before_cut->SetXTitle("MM2 (GeV)");
+  MM2_hist_NPip_before_cut->Write();
+  MM_hist_NPip->SetXTitle("MM (GeV)");
+  MM_hist_NPip->Write();
+  MM2_hist_NPip->SetXTitle("MM2 (GeV)");
+  MM2_hist_NPip->Write();
+  Q2_hist_NPip->SetTitle("Q2_NPip");
+  Q2_hist_NPip->Write();
 
-    TDirectory *W_vs_Q2_folder = RootOutputFile->mkdir("W_vs_Q2");
-    W_vs_Q2_folder->cd();
-    for (int i = 0; i < NUM_SECTORS; i++) {
-      mass_pi0_hist[before_cut][i]->SetXTitle("MM(GeV)");
-      mass_pi0_hist[before_cut][i]->Write();
+  TDirectory *W_vs_Q2_folder = RootOutputFile->mkdir("W_vs_Q2");
+  W_vs_Q2_folder->cd();
+  for (int i = 0; i < NUM_SECTORS; i++) {
+    mass_pi0_hist[before_cut][i]->SetXTitle("MM(GeV)");
+    mass_pi0_hist[before_cut][i]->Write();
 
-      mass_pi0_hist[after_cut][i]->SetXTitle("MM(GeV)");
-      mass_pi0_hist[after_cut][i]->Write();
-      for (int j = 0; j < NUM_Q2_BINS; j++) {
+    mass_pi0_hist[after_cut][i]->SetXTitle("MM(GeV)");
+    mass_pi0_hist[after_cut][i]->Write();
+    for (int j = 0; j < NUM_Q2_BINS; j++) {
 
-        MissingMass[i][j]->SetXTitle("MM^2 (GeV)");
-        MissingMass[i][j]->Write();
+      MissingMass[i][j]->SetXTitle("MM^2 (GeV)");
+      MissingMass[i][j]->Write();
 
-        // W_hist_all_events[i][j] -> Fit("gaus", "QMR+", "QMR+",
-        // 0.8, 1.1); gStyle->SetOptFit(1111);
-        W_hist_all_events[i][j]->SetXTitle("W (GeV)");
-        W_hist_all_events[i][j]->Write();
+      // W_hist_all_events[i][j] -> Fit("gaus", "QMR+", "QMR+",
+      // 0.8, 1.1); gStyle->SetOptFit(1111);
+      W_hist_all_events[i][j]->SetXTitle("W (GeV)");
+      W_hist_all_events[i][j]->Write();
 
-        W_vs_q2_all_events[i][j]->SetXTitle("W (GeV)");
-        W_vs_q2_all_events[i][j]->SetYTitle("Q^2 (GeV^2)");
-        W_vs_q2_all_events[i][j]->SetOption("COLZ");
-        W_vs_q2_all_events[i][j]->Write();
-      }
-    }
-    W_vs_Q2_folder->Write();
-    delete W_vs_Q2_folder;
-
-    // NPip I added
-    TDirectory *NPip_folder = RootOutputFile->mkdir("NPip");
-    NPip_folder->cd();
-    // auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W
-    // NPip sectors", 1920, 1080); W_NPip_can->Divide(4, 2);
-    for (short i = 0; i < NUM_SECTORS; i++) {
-      for (int j = 0; j < NUM_Q2_BINS; j++) {
-
-        W_hist_NPip_events[i][j]->SetXTitle("W (GeV)");
-        W_hist_NPip_events[i][j]->Write();
-        // W_NPip_can->cd(i + 1);
-        // W_hist_NPip_events[i][j]->Draw("same");
-        //}
-        // W_NPip_can->Write();
-        // for (short i = 0; i < NUM_SECTORS; i++) {
-        W_hist_NPip_before_mmsq_cut_events[i][j]->SetXTitle("W (GeV)");
-        W_hist_NPip_before_mmsq_cut_events[i][j]->Write();
-
-        E_vs_theta_e_all_events[i][j]->SetXTitle("theta (deg)");
-        E_vs_theta_e_all_events[i][j]->SetYTitle("E' (GeV)");
-        E_vs_theta_e_all_events[i][j]->SetOption("COLZ");
-        E_vs_theta_e_all_events[i][j]->Write();
-
-        E_vs_theta_e_elastic_events[i][j]->SetXTitle("theta (deg)");
-        E_vs_theta_e_elastic_events[i][j]->SetYTitle("E' (GeV)");
-        E_vs_theta_e_elastic_events[i][j]->SetOption("COLZ");
-        E_vs_theta_e_elastic_events[i][j]->Write();
-
-        E_vs_theta_e_2nd_reso_events[i][j]->SetXTitle("theta (deg)");
-        E_vs_theta_e_2nd_reso_events[i][j]->SetYTitle("E' (GeV)");
-        E_vs_theta_e_2nd_reso_events[i][j]->SetOption("COLZ");
-        E_vs_theta_e_2nd_reso_events[i][j]->Write();
-
-        E_vs_theta_e_3rd_reso_events[i][j]->SetXTitle("theta_ (deg)");
-        E_vs_theta_e_3rd_reso_events[i][j]->SetYTitle("E' (GeV)");
-        E_vs_theta_e_3rd_reso_events[i][j]->SetOption("COLZ");
-        E_vs_theta_e_3rd_reso_events[i][j]->Write();
-        //}
-
-        // auto MM2_NPip_can = std::make_unique<TCanvas>("MM2
-        // NPip_can", "MM2 NPip sectors", 1920, 1080);
-        // MM2_NPip_can->Divide(4, 2); for (short i = 0; i <
-        // NUM_SECTORS; i++) {
-        MM2_hist_NPip_events[i][j]->SetXTitle("MM2 (GeV)");
-        MM2_hist_NPip_events[i][j]->Write();
-        //  MM2_NPip_can->cd(i + 1);
-        //  MM2_hist_NPip_events[i][j]->Draw("same");
-      }
-    }
-    // MM2_NPip_can->Write();
-    NPip_folder->Write();
-    delete NPip_folder;
-  }
-
-  void Histogram::Fill_Dt(const std::shared_ptr<Delta_T> &dt) {
-    for (int i = 0; i < dt->gpart(); i++) {
-      if (dt->charge(i) == 1)
-        deltaT_proton[before_cut]->Fill(dt->mom(i), dt->dt_P(i));
+      W_vs_q2_all_events[i][j]->SetXTitle("W (GeV)");
+      W_vs_q2_all_events[i][j]->SetYTitle("Q^2 (GeV^2)");
+      W_vs_q2_all_events[i][j]->SetOption("COLZ");
+      W_vs_q2_all_events[i][j]->Write();
     }
   }
+  W_vs_Q2_folder->Write();
+  delete W_vs_Q2_folder;
 
-  void Histogram::Fill_Dt(const std::shared_ptr<Delta_T> &dt, int part) {
-    deltaT_proton[after_cut]->Fill(dt->mom(part), dt->dt_P(part));
+  // NPip I added
+  TDirectory *NPip_folder = RootOutputFile->mkdir("NPip");
+  NPip_folder->cd();
+  // auto W_NPip_can = std::make_unique<TCanvas>("W NPip_can", "W
+  // NPip sectors", 1920, 1080); W_NPip_can->Divide(4, 2);
+  for (short i = 0; i < NUM_SECTORS; i++) {
+    for (int j = 0; j < NUM_Q2_BINS; j++) {
+
+      W_hist_NPip_events[i][j]->SetXTitle("W (GeV)");
+      W_hist_NPip_events[i][j]->Write();
+      // W_NPip_can->cd(i + 1);
+      // W_hist_NPip_events[i][j]->Draw("same");
+      //}
+      // W_NPip_can->Write();
+      // for (short i = 0; i < NUM_SECTORS; i++) {
+      W_hist_NPip_before_mmsq_cut_events[i][j]->SetXTitle("W (GeV)");
+      W_hist_NPip_before_mmsq_cut_events[i][j]->Write();
+
+      E_vs_theta_e_all_events[i][j]->SetXTitle("theta (deg)");
+      E_vs_theta_e_all_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_all_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_all_events[i][j]->Write();
+
+      E_vs_theta_e_elastic_events[i][j]->SetXTitle("theta (deg)");
+      E_vs_theta_e_elastic_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_elastic_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_elastic_events[i][j]->Write();
+
+      E_vs_theta_e_2nd_reso_events[i][j]->SetXTitle("theta (deg)");
+      E_vs_theta_e_2nd_reso_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_2nd_reso_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_2nd_reso_events[i][j]->Write();
+
+      E_vs_theta_e_3rd_reso_events[i][j]->SetXTitle("theta_ (deg)");
+      E_vs_theta_e_3rd_reso_events[i][j]->SetYTitle("E' (GeV)");
+      E_vs_theta_e_3rd_reso_events[i][j]->SetOption("COLZ");
+      E_vs_theta_e_3rd_reso_events[i][j]->Write();
+      //}
+
+      // auto MM2_NPip_can = std::make_unique<TCanvas>("MM2
+      // NPip_can", "MM2 NPip sectors", 1920, 1080);
+      // MM2_NPip_can->Divide(4, 2); for (short i = 0; i <
+      // NUM_SECTORS; i++) {
+      MM2_hist_NPip_events[i][j]->SetXTitle("MM2 (GeV)");
+      MM2_hist_NPip_events[i][j]->Write();
+      //  MM2_NPip_can->cd(i + 1);
+      //  MM2_hist_NPip_events[i][j]->Draw("same");
+    }
   }
+  // MM2_NPip_can->Write();
+  NPip_folder->Write();
+  delete NPip_folder;
+}
+
+void Histogram::Fill_Dt(const std::shared_ptr<Delta_T> &dt) {
+  for (int i = 0; i < dt->gpart(); i++) {
+    if (dt->charge(i) == 1)
+      deltaT_proton[before_cut]->Fill(dt->mom(i), dt->dt_P(i));
+  }
+}
+
+void Histogram::Fill_Dt(const std::shared_ptr<Delta_T> &dt, int part) {
+  deltaT_proton[after_cut]->Fill(dt->mom(part), dt->dt_P(part));
+}
