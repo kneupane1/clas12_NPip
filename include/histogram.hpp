@@ -31,9 +31,11 @@ using TGraph_ptr = std::shared_ptr<TGraph>;
 class Histogram {
 protected:
   static const short NUM_SECTORS = 7;
-  static const short NUM_Q2_BINS = 4;
-  std::string Q2_BIN_NAME[NUM_Q2_BINS] = {" all", " < 2 GeV", " 2-3.5 GeV",
-                                          " > 3.5 GeV"};
+  static const short NUM_Q2_BINS = 7;
+  std::string Q2_BIN_NAME[NUM_Q2_BINS] = //{" all", " < 2 GeV", " 2-3.5 GeV",
+                                         //" > 3.5 GeV"};
+      {" all",    " < 1.8 GeV", " 1.8-2.5 GeV ", " 2.5-3 GeV",
+       "3-4 GeV", "4-5 GeV",    " 5-12 GeV"};
   static const short NUM_DET = 3;
   static const short CUTS = 2;
   // enum to easily access detector and sector information

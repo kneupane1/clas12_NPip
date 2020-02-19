@@ -103,7 +103,7 @@ int make_plots(std::string inFileName = "/home/krishna/Downloads/clas12_NPip/"
     TCanvas *can =
         new TCanvas("W_hist_NPip_sec", "W_hist_NPip_sec", 1920, 1080);
     can->Divide(3, 2);
-    for (int q2 = 1; q2 < 2; q2++) {
+    for (int q2 = 0; q2 < 1; q2++) {
       // can->cd(q2 + 1);
       for (int sec = 1; sec < 7; sec++) {
 
