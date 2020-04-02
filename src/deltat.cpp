@@ -1,8 +1,4 @@
-/**************************************/
-/*																		*/
-/*  Created by Nick Tyler             */
-/*	University Of South Carolina      */
-/**************************************/
+
 #include "deltat.hpp"
 
 Delta_T::Delta_T(std::shared_ptr<Branches12> data) {
@@ -31,8 +27,10 @@ Delta_T::Delta_T(std::shared_ptr<Branches12> data) {
 
 Delta_T::~Delta_T() {}
 
-float Delta_T::_vertex_time(float sc_time, float sc_pathlength, float relatavistic_beta) {
-  if (std::isnan(sc_time) || std::isnan(sc_pathlength)) return NAN;
+float Delta_T::_vertex_time(float sc_time, float sc_pathlength,
+                            float relatavistic_beta) {
+  if (std::isnan(sc_time) || std::isnan(sc_pathlength))
+    return NAN;
   return sc_time - sc_pathlength / (relatavistic_beta * c_special_units);
 }
 
@@ -48,7 +46,8 @@ float Delta_T::_deltat(int pid) {
 float Delta_T::_ctof_deltat(int pid) {
   _beta = 1.0 / sqrt(1.0 + (mass[pid] / _momentum) * (mass[pid] / _momentum));
   float _v = _vertex;
-  if (_ctof) _v = _ctof_vertex;
+  if (_ctof)
+    _v = _ctof_vertex;
   if (_ctof_t == _ctof_t && _ctof_r == _ctof_r) {
     return _v - _vertex_time(_ctof_t, _ctof_r, _beta);
   } else {

@@ -102,9 +102,17 @@ physics.hpp
 iostream
 -
 
+/home/krishna/Downloads/clas12_NPip/src/deltat.cpp
+deltat.hpp
+/home/krishna/Downloads/clas12_NPip/src/deltat.hpp
+
 /home/krishna/Downloads/clas12_NPip/src/histogram.cpp
 histogram.hpp
 /home/krishna/Downloads/clas12_NPip/src/histogram.hpp
+
+/home/krishna/Downloads/clas12_NPip/src/reaction.cpp
+reaction.hpp
+/home/krishna/Downloads/clas12_NPip/src/reaction.hpp
 
 /usr/local/root/include/Buttons.h
 
